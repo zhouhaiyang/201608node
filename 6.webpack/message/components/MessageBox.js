@@ -5,8 +5,16 @@ export default class MessageBox extends React.Component{
   constructor(props){
       //调用父类的构造函数来初始化组建
      super(props);
-      //通过此方法初始化状态对象
      this.state = {messages:[]};
+  }
+    //做渲染前数据准备工作
+  componentWillMount(){
+     this.setState({messages:this.props.model.list()});
+  }
+
+  addMessage(msgObj){
+     var messages = this.props.model.add(msgObj);
+     this.setState({messages});
   }
 
   render(){
@@ -16,10 +24,10 @@ export default class MessageBox extends React.Component{
                   <h3>珠峰留言版</h3>
               </div>
               <div className="panel-body">
-                  <MessageList></MessageList>
+                  <MessageList messages={this.state.messages}></MessageList>
               </div>
               <div className="panel-footer">
-                  <MessageForm></MessageForm>
+                  <MessageForm addMessage={this.addMessage.bind(this)}></MessageForm>
               </div>
           </div>
       )
